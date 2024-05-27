@@ -35,17 +35,17 @@ def load_overall_analysis():
     with col4:
         st.metric("Funded Startup", str(total_startup))
 
-    st.header('MoM graph')
-    selected_option = st.selectbox('Select Type',['Total','Count'])
-    if selected_option == 'Total':
-        temp_df1 = df.groupby(['year','month'])['amount'].sum().reset_index()
-    else:
-        temp_df1 = df.groupby(['year','month'])['amount'].count().reset_index()
-    temp_df1['x-axis'] = temp_df1['month'].astype(str) + ' - ' + temp_df1['year'].astype(str)
+    # st.header('MoM graph')
+    # selected_option = st.selectbox('Select Type',['Total','Count'])
+    # if selected_option == 'Total':
+    #     temp_df1 = df.groupby(['year','month'])['amount'].sum().reset_index()
+    # else:
+    #     temp_df1 = df.groupby(['year','month'])['amount'].count().reset_index()
+    # temp_df1['x-axis'] = temp_df1['month'].astype(str) + ' - ' + temp_df1['year'].astype(str)
 
-    fig4, ax4 = plt.subplots()
-    ax4.plot(temp_df1['x-axis'], temp_df1['amount'])
-    st.pyplot(fig4)
+    # fig4, ax4 = plt.subplots()
+    # ax4.plot(temp_df1['x-axis'], temp_df1['amount'])
+    # st.pyplot(fig4)
 
     col5,col6 = st.columns(2)
     with col5:
