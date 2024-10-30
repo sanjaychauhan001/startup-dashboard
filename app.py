@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import plotly.express as px
 
 st.set_page_config(layout='wide',page_title='Startup Analysis')
 df = pd.read_csv('startup_cleaned.csv')
@@ -52,6 +53,8 @@ def load_overall_analysis():
     with col5:
         st.subheader('Year Wise Investment')
         year_wise = df.groupby('year')['amount'].sum().reset_index()
+        # fig = px.bar(data_frame=year_wise, x='year',y='amount')
+        # st.plotly_chart(fig,use_container_width=True)
         st.bar_chart(data=year_wise, x='year',y='amount')
 
     with col6:
@@ -60,21 +63,27 @@ def load_overall_analysis():
         fig10, ax10 = plt.subplots()
         ax10.pie(top_rounds.values, labels=top_rounds.index, autopct='%1.1f%%')
         st.pyplot(fig10)
+        # fig1 = px.pie(data_frame=top_rounds,names=top_rounds.index,values=top_rounds.values)
+        # st.plotly_chart(fig1,use_container_width=True)
 
     col7,col8 = st.columns(2)
     with col7:
         st.subheader("Amount Invested in Sectors")
         sectors_sum = df.groupby('vertical')['amount'].sum().sort_values(ascending=False).head(7)
-        fig5, ax5 = plt.subplots()
-        ax5.pie(sectors_sum.values, labels=sectors_sum.index, autopct='%1.1f%%')
-        st.pyplot(fig5)
+        # fig5, ax5 = plt.subplots()
+        # ax5.pie(sectors_sum.values, labels=sectors_sum.index, autopct='%1.1f%%')
+        # st.pyplot(fig5)
+        fig2 = px.pie(data_frame=sectors_sum,names=sectors_sum.index,values=sectors_sum.values)
+        st.plotly_chart(fig2,use_container_width=True)
 
     with col8:
         st.subheader("Sectors which got funding more times")
         sector_count = df.groupby('vertical')['startup'].count().sort_values(ascending=False).head(7)
-        fig6, ax6 = plt.subplots()
-        ax6.pie(sector_count.values, labels=sector_count.index, autopct='%1.1f%%')
-        st.pyplot(fig6)
+        # fig6, ax6 = plt.subplots()
+        # ax6.pie(sector_count.values, labels=sector_count.index, autopct='%1.1f%%')
+        # st.pyplot(fig6)
+        fig3 = px.pie(data_frame=sector_count,names=sector_count.index,values=sector_count.values)
+        st.plotly_chart(fig3,use_container_width=True)
 
     st.subheader("Investment in top 10 city")
     top_city = df.groupby('city')['amount'].sum().sort_values(ascending=False).head(10).reset_index()
@@ -202,7 +211,7 @@ elif(option == 'Startup'):
 
 
 else:
-    selected_investor = st.sidebar.selectbox("Investor",sorted((df['investors'].unique().tolist())))
+    selected_investor = st.sidebar.selectbox("Investor",df['investors'].unique().tolist())
     btn2 = st.sidebar.button("Find Investor details")
     if btn2:
         load_investor_details(selected_investor)
